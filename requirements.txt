@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+scipy
+streamlit
+fastapi
+uvicorn
+python-multipart
+pickle-mixin
