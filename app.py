@@ -6,103 +6,44 @@ import os
 # Set page config
 st.set_page_config(page_title="Book Recommender", layout="wide")
 
-# Relative Paths for easier deployment
+# Flat structure paths (all files in root)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, 'models', 'model.pkl')
-PIVOT_PATH = os.path.join(BASE_DIR, 'models', 'book_pivot.pkl')
-BOOKS_PATH = os.path.join(BASE_DIR, 'models', 'books.pkl')
+MODEL_PATH = os.path.join(BASE_DIR, 'model.pkl')
+PIVOT_PATH = os.path.join(BASE_DIR, 'book_pivot.pkl')
+BOOKS_PATH = os.path.join(BASE_DIR, 'books.pkl')
 
 # Custom CSS for Modern LOOK
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
     
-    /* Main container background */
     .stApp {
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         font-family: 'Open Sans', sans-serif;
     }
 
-    /* Header styling */
-    .main-header {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        padding: 2rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-    
-    .stTitle {
-        color: #1a1a1a;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-    }
-
-    /* Recommendation Card Styling */
     .book-card {
         background: white;
-        padding: 1.5rem;
-        border-radius: 15px;
+        padding: 1rem;
+        border-radius: 12px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease;
         text-align: center;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         margin-bottom: 1rem;
     }
 
     .book-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 20px rgba(0,0,0,0.1);
-        border: 2px solid #ff9900; /* Kindle Orange */
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        border: 1px solid #ff9900;
     }
 
     .book-title {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 600;
         color: #333;
-        margin-top: 10px;
+        margin-top: 8px;
         line-height: 1.2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    /* Tabs styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 20px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        padding: 10px 20px;
-        background-color: transparent;
-        border-radius: 10px;
-        color: #666;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #ff9900 !important;
-        color: white !important;
-    }
-
-    /* Button styling */
-    .stButton>button {
-        background-color: #ff9900;
-        color: white;
-        border-radius: 10px;
-        padding: 10px 30px;
-        border: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #e68a00;
-        transform: scale(1.05);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -110,14 +51,7 @@ st.markdown("""
 @st.cache_resource
 def load_data():
     try:
-        # Check if files exist
         if not all([os.path.exists(MODEL_PATH), os.path.exists(PIVOT_PATH), os.path.exists(BOOKS_PATH)]):
-             # Fallback to current directory for models if they were moved
-             if all([os.path.exists('model.pkl'), os.path.exists('book_pivot.pkl'), os.path.exists('books.pkl')]):
-                 with open('model.pkl', 'rb') as f: model = pickle.load(f)
-                 with open('book_pivot.pkl', 'rb') as f: book_pivot = pickle.load(f)
-                 with open('books.pkl', 'rb') as f: books_metadata = pickle.load(f)
-                 return model, book_pivot, books_metadata
              return None, None, None
              
         with open(MODEL_PATH, 'rb') as f:
@@ -128,73 +62,49 @@ def load_data():
             books_metadata = pickle.load(f)
         return model, book_pivot, books_metadata
     except Exception as e:
-        st.error(f"Error loading data: {e}")
         return None, None, None
 
 model, book_pivot, books_metadata = load_data()
 
-# Layout for Logo and Title
-col_logo, col_title = st.columns([1, 5])
+# Header Area
+col_logo, col_title = st.columns([1, 6])
 with col_logo:
     logo_path = os.path.join(BASE_DIR, 'logo.png')
     if os.path.exists(logo_path):
-        st.image(logo_path, width=100)
-    else:
-        st.write("📖")
+        st.image(logo_path, width=80)
 with col_title:
-    st.title("Kindle Book Recommendation System")
+    st.title("Kindle Recommendation System")
 
 tab1, tab2 = st.tabs(["🎯 Recommendations", "📊 Data Insights"])
 
 with tab1:
-    st.markdown("Enter a book you like, and we'll suggest similar ones!")
     if model is None or book_pivot is None:
-        st.error("Model files not found. Please make sure the 'models' folder or pkl files are in the repository.")
+        st.error("Error: Model files not found in the root directory. Please check GitHub.")
     else:
-        book_list = book_pivot.index.values
-        selected_book = st.selectbox(
-            "Type or select a book from the dropdown",
-            book_list
-        )
+        selected_book = st.selectbox("Select a book you enjoyed:", book_pivot.index.values)
 
         if st.button('🚀 Get Recommendations'):
-            with st.spinner('Curating books for you...'):
+            with st.spinner('Thinking...'):
                 query_index = np.where(book_pivot.index == selected_book)[0][0]
                 distances, indices = model.kneighbors(book_pivot.iloc[query_index,:].values.reshape(1, -1), n_neighbors=6)
                 
-                st.markdown("### ✨ Top Recommendations")
                 cols = st.columns(5)
                 for i in range(1, 6):
                     idx = indices.flatten()[i]
-                    recommended_book_title = book_pivot.index[idx]
-                    meta = books_metadata[books_metadata['title'] == recommended_book_title]
-                    poster_url = meta.iloc[0]['image_url'] if not meta.empty else "https://via.placeholder.com/150"
+                    title = book_pivot.index[idx]
+                    meta = books_metadata[books_metadata['title'] == title]
+                    poster = meta.iloc[0]['image_url'] if not meta.empty else "https://via.placeholder.com/150"
                     
                     with cols[i-1]:
-                        st.markdown(f"""
-                        <div class="book-card">
-                            <img src="{poster_url}" style="width: 100%; border-radius: 10px;">
-                            <div class="book-title">{recommended_book_title}</div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.markdown(f'<div class="book-card"><img src="{poster}" style="width:100%; border-radius:8px;"><div class="book-title">{title}</div></div>', unsafe_allow_html=True)
 
 with tab2:
-    st.header("Insights from Kindle Book Data")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("Top Authors")
-        if books_metadata is not None:
-            top_authors = books_metadata['author'].value_counts().head(10)
-            st.bar_chart(top_authors)
-    with col2:
-        st.subheader("Top Publishers")
-        if books_metadata is not None:
-            top_publishers = books_metadata['publisher'].value_counts().head(10)
-            st.bar_chart(top_publishers)
-
-    st.divider()
-    st.subheader("Statistical Findings")
-    st.markdown("""
-    - **Age vs Region**: No significant difference in average reader age between US and Canada.
-    - **Popularity Bias**: Highly rated books tend to have a higher volume of ratings.
-    """)
+    st.header("Kindle Book Insights")
+    if books_metadata is not None:
+        colA, colB = st.columns(2)
+        with colA:
+            st.subheader("Top Authors")
+            st.bar_chart(books_metadata['author'].value_counts().head(10))
+        with colB:
+            st.subheader("Top Publishers")
+            st.bar_chart(books_metadata['publisher'].value_counts().head(10))
