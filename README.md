@@ -1,4 +1,4 @@
-# 📚 Kindle Book Recommendation System
+# 📚 Book Recommendation System
 
 > **Unsupervised Learning · NLP · Collaborative Filtering · Streamlit Deployment**
 
