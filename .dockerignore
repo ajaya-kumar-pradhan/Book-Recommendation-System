@@ -1,0 +1,6 @@
+.git
+*.csv
+*.ipynb
+*.html
+__pycache__
+*.md
