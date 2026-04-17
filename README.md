@@ -2,9 +2,10 @@
 
 > **Unsupervised Learning · Collaborative Filtering · Streamlit · Hugging Face Deployment**
 
-[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Hugging%20Face-orange?style=for-the-badge)](https://huggingface.co/spaces/ajayapradhanconnect/Book-Recommendation-System)
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+## 🚀 Live Demo
+**Click the link below to try the recommendation system instantly (Free & Always On):**
+
+### 👉 [**Launch Book Recommendation System**](https://huggingface.co/spaces/ajayapradhanconnect/Book-Recommendation-System)
 
 ---
 
