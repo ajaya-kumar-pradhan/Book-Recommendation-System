@@ -99,7 +99,7 @@ PageMatch demonstrates all of this in a live, deployable system.
 
 | Book Search & Selection | Recommendation Results |
 |---|---|
-| ![Book Search](assets/book_search.png) | ![Recommendations](assets/recommendations.png) |
+| ![Book Search](assets/book_search.png) | ![Recommendations](https://github.com/ajaya-kumar-pradhan/Book-Recommendation-System/blob/84c7b86202a50f240f4772299c4157b6971186a2/recommendation%20page.jpg) |
 
 | Top Publishers Chart | Top Authors Chart |
 |---|---|
