@@ -103,7 +103,7 @@ PageMatch demonstrates all of this in a live, deployable system.
 
 | Top Publishers Chart | Top Authors Chart |
 |---|---|
-| ![Publishers](assets/publishers_chart.png) | ![Authors](https://github.com/ajaya-kumar-pradhan/Book-Recommendation-System/blob/2842f65aca2d1a495a6877e08c66268d1f7dddb6/top%20authors.jpg) |
+| ![Publishers](https://github.com/ajaya-kumar-pradhan/Book-Recommendation-System/blob/6576b7482b89c296e2d85969c3ff5fe7cc2d336c/top%20publisher.jpg) | ![Authors](https://github.com/ajaya-kumar-pradhan/Book-Recommendation-System/blob/2842f65aca2d1a495a6877e08c66268d1f7dddb6/top%20authors.jpg) |
 
 > 💡 **Tip for recruiters:** Click the **Live App** badge above, search for any book title, and get 5 personalised recommendations with cover images in under 2 seconds.
 
